@@ -1,0 +1,51 @@
+[
+  {
+    "id": "ECO-20551",
+    "fullName": "Rohan Gupta",
+    "email": "rohan.gupta@example.com",
+    "mobile": "9876543210",
+    "category": "Keyboards & Mouse",
+    "quantity": 3,
+    "pickupDate": "2026-10-18",
+    "address": "Flat 101, Tech Residency, Electronic City, Bengaluru",
+    "status": "Recycled",
+    "createdAt": "3/10/2026, 7:34:45 pm",
+    "updatedAt": "3/10/2026, 7:34:55 pm"
+  },
+  {
+    "id": "ECO-78214",
+    "fullName": "Aarav Sharma",
+    "email": "aarav.sharma@example.com",
+    "mobile": "9876543210",
+    "category": "Laptops",
+    "quantity": 2,
+    "pickupDate": "2026-10-10",
+    "address": "Flat 304, Green Heights, Outer Ring Road, Bengaluru - 560103",
+    "status": "In Transit",
+    "createdAt": "10/3/2026, 11:20:00 AM"
+  },
+  {
+    "id": "ECO-54912",
+    "fullName": "Priya Patel",
+    "email": "priya.p@example.com",
+    "mobile": "9123456780",
+    "category": "Mobile Phones",
+    "quantity": 4,
+    "pickupDate": "2026-10-12",
+    "address": "House No 12, Sunrise Avenue, Koramangala, Bengaluru - 560034",
+    "status": "Scheduled",
+    "createdAt": "10/3/2026, 02:45:00 PM"
+  },
+  {
+    "id": "ECO-39105",
+    "fullName": "Vikram Malhotra",
+    "email": "vikram.m@techcorp.com",
+    "mobile": "9988776655",
+    "category": "Televisions",
+    "quantity": 1,
+    "pickupDate": "2026-10-08",
+    "address": "Block B, Prestige Cyber Towers, Whitefield, Bengaluru - 560066",
+    "status": "Recycled",
+    "createdAt": "10/2/2026, 04:15:00 PM"
+  }
+]

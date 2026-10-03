@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCycle Admin – Pickup & Database Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-header {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 1.25rem 0;
+            box-shadow: var(--shadow-md);
+        }
+        .admin-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .admin-badge {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            margin-left: 0.6rem;
+        }
+        .admin-content {
+            padding: 3rem 0;
+            min-height: calc(100vh - 200px);
+            background-color: var(--bg-light);
+        }
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .dash-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            transition: var(--transition);
+        }
+        .dash-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .dash-card-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .icon-green { background: #dcfce7; color: #16a34a; }
+        .icon-blue { background: #e0f2fe; color: #0284c7; }
+        .icon-amber { background: #fef3c7; color: #d97706; }
+        .icon-purple { background: #f3e8ff; color: #9333ea; }
+        .dash-card-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text-main);
+        }
+        .dash-card-info p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .admin-tab-btn {
+            background: none;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .admin-tab-btn.active {
+            color: var(--primary-hover);
+            background-color: var(--primary-light);
+        }
+        .table-panel {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .table-toolbar {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.4rem 0.8rem;
+            width: 280px;
+        }
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            padding-left: 0.5rem;
+            width: 100%;
+            font-size: 0.88rem;
+        }
+        .status-select {
+            padding: 0.35rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            outline: none;
+            cursor: pointer;
+        }
+        .status-select.scheduled { background-color: #fef3c7; color: #b45309; }
+        .status-select.in-transit { background-color: #e0f2fe; color: #0369a1; }
+        .status-select.recycled { background-color: #dcfce7; color: #15803d; }
+        .status-select.cancelled { background-color: #fee2e2; color: #b91c1c; }
+        @media (max-width: 900px) {
+            .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .dashboard-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="container admin-nav-container">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <a href="index.html" class="logo" style="color: #ffffff;">
+                    <span class="logo-icon"><i class="fa-solid fa-recycle"></i></span>
+                    <span>Eco<span class="highlight">Cycle</span></span>
+                </a>
+                <span class="admin-badge"><i class="fa-solid fa-server"></i> Node.js REST API</span>
+            </div>
+            <div>
+                <a href="index.html" class="btn btn-secondary btn-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Portal
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-content">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h1 style="font-size: 1.85rem; font-weight: 700; color: var(--text-main);">Backend Admin Dashboard</h1>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Live management of persistent E-Waste collection requests and inquiries.</p>
+                </div>
+                <div style="display: flex; gap: 0.75rem;">
+                    <button class="btn btn-outline btn-sm" id="refreshBtn">
+                        <i class="fa-solid fa-rotate"></i> Refresh Data
+                    </button>
+                    <a href="/api/pickups" target="_blank" class="btn btn-secondary btn-sm" title="View raw JSON API endpoint">
+                        <i class="fa-solid fa-code"></i> Raw JSON API
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="dashboard-stats">
+                <div class="dash-card">
+                    <div class="dash-card-icon icon-green">
+                        <i class="fa-solid fa-truck-pickup"></i>
+                    </div>
+                    <div class="dash-card-info">
+                        <h3 id="statTotalPickups">0</h3>
+                        <p>Total Pickups</p>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-card-icon icon-blue">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div class="dash-card-info">
+                        <h3 id="statTotalUnits">0</h3>
+                        <p>Total E-Waste Units</p>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-card-icon icon-amber">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="dash-card-info">
+                        <h3 id="statScheduled">0</h3>
+                        <p>Active / Scheduled</p>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-card-icon icon-purple">
+                        <i class="fa-solid fa-recycle"></i>
+                    </div>
+                    <div class="dash-card-info">
+                        <h3 id="statRecycled">0</h3>
+                        <p>Safely Recycled</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" id="tabPickupsBtn">
+                    <i class="fa-solid fa-list-check"></i> Pickup Requests (<span id="tabPickupCount">0</span>)
+                </button>
+                <button class="admin-tab-btn" id="tabContactsBtn">
+                    <i class="fa-solid fa-envelope-open-text"></i> Contact Messages (<span id="tabContactCount">0</span>)
+                </button>
+            </div>
+
+            <!-- Panel 1: Pickups -->
+            <div class="table-panel" id="panelPickups">
+                <div class="table-toolbar">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass" style="color: var(--text-light);"></i>
+                        <input type="text" id="searchInput" placeholder="Search by name, ID, mobile...">
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <select id="filterCategory" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                            <option value="">All Categories</option>
+                            <option value="Mobile Phones">Mobile Phones</option>
+                            <option value="Laptops">Laptops</option>
+                            <option value="Keyboards & Mouse">Keyboards & Mouse</option>
+                            <option value="Batteries & Chargers">Batteries & Chargers</option>
+                            <option value="Televisions">Televisions</option>
+                            <option value="Other Electronics">Other Electronics</option>
+                        </select>
+                        <select id="filterStatus" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                            <option value="">All Statuses</option>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="In Transit">In Transit</option>
+                            <option value="Recycled">Recycled</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="history-list-wrapper" style="border: none; border-radius: 0; max-height: 500px;">
+                    <table class="history-table" id="adminPickupsTable">
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Customer & Contact</th>
+                                <th>Category</th>
+                                <th>Qty</th>
+                                <th>Date</th>
+                                <th>Address</th>
+                                <th>Status Action</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminPickupsBody">
+                            <tr>
+                                <td colspan="8" class="text-center" style="padding: 2rem;">Loading live database records...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel 2: Contacts -->
+            <div class="table-panel" id="panelContacts" style="display: none;">
+                <div class="table-toolbar">
+                    <h3 style="font-size: 1.1rem; font-weight: 600;"><i class="fa-solid fa-inbox"></i> Inquiries from Contact Form</h3>
+                </div>
+                <div class="history-list-wrapper" style="border: none; border-radius: 0; max-height: 500px;">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Sender Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Received At</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminContactsBody">
+                            <tr>
+                                <td colspan="5" class="text-center" style="padding: 2rem;">Loading messages...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-check"></i></div>
+        <div class="toast-message" id="toastMessage">Action completed!</div>
+    </div>
+
+    <script>
+        let allPickups = [];
+        let allContacts = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboardData();
+            initTabs();
+            initFilters();
+
+            document.getElementById('refreshBtn').addEventListener('click', () => {
+                loadDashboardData();
+                showAdminToast('Refreshed data from backend API');
+            });
+        });
+
+        async function loadDashboardData() {
+            try {
+                // Fetch stats
+                const statsRes = await fetch('/api/stats');
+                const statsData = await statsRes.json();
+                if (statsData.success) {
+                    document.getElementById('statTotalPickups').textContent = statsData.stats.totalPickups;
+                    document.getElementById('statTotalUnits').textContent = statsData.stats.totalUnits;
+                    document.getElementById('statScheduled').textContent = statsData.stats.scheduledCount;
+                    document.getElementById('statRecycled').textContent = statsData.stats.recycledCount;
+                }
+
+                // Fetch pickups
+                const pickupsRes = await fetch('/api/pickups');
+                const pickupsData = await pickupsRes.json();
+                if (pickupsData.success) {
+                    allPickups = pickupsData.data;
+                    document.getElementById('tabPickupCount').textContent = allPickups.length;
+                    renderPickups(allPickups);
+                }
+
+                // Fetch contacts
+                const contactsRes = await fetch('/api/contacts');
+                const contactsData = await contactsRes.json();
+                if (contactsData.success) {
+                    allContacts = contactsData.data;
+                    document.getElementById('tabContactCount').textContent = allContacts.length;
+                    renderContacts(allContacts);
+                }
+            } catch (err) {
+                console.error('Error fetching backend data:', err);
+                showAdminToast('Could not connect to backend REST API.', 'error');
+            }
+        }
+
+        function renderPickups(pickups) {
+            const tbody = document.getElementById('adminPickupsBody');
+            if (!tbody) return;
+
+            if (pickups.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center" style="padding: 2.5rem; color: var(--text-muted);">No matching pickup records in database.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = pickups.map(p => `
+                <tr>
+                    <td><strong style="color: var(--primary-color); font-family: monospace; font-size: 0.95rem;">${escapeHtml(p.id)}</strong></td>
+                    <td>
+                        <div><strong>${escapeHtml(p.fullName)}</strong></div>
+                        <small style="color: var(--text-muted);">${escapeHtml(p.email)} | ${escapeHtml(p.mobile)}</small>
+                    </td>
+                    <td><span style="font-weight: 500;">${escapeHtml(p.category)}</span></td>
+                    <td><strong>${escapeHtml(String(p.quantity))}</strong></td>
+                    <td>${escapeHtml(p.pickupDate)}</td>
+                    <td style="max-width: 220px; font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(p.address)}</td>
+                    <td>
+                        <select class="status-select ${getStatusClass(p.status)}" onchange="updatePickupStatus('${p.id}', this.value)">
+                            <option value="Scheduled" ${p.status === 'Scheduled' ? 'selected' : ''}>Scheduled</option>
+                            <option value="In Transit" ${p.status === 'In Transit' ? 'selected' : ''}>In Transit</option>
+                            <option value="Recycled" ${p.status === 'Recycled' ? 'selected' : ''}>Recycled</option>
+                            <option value="Cancelled" ${p.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn-delete-row" onclick="deletePickup('${p.id}')" title="Delete record from backend">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderContacts(contacts) {
+            const tbody = document.getElementById('adminContactsBody');
+            if (!tbody) return;
+
+            if (contacts.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center" style="padding: 2.5rem; color: var(--text-muted);">No contact inquiries received yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = contacts.map(c => `
+                <tr>
+                    <td><strong style="color: var(--primary-color); font-family: monospace;">${escapeHtml(c.id)}</strong></td>
+                    <td><strong>${escapeHtml(c.name)}</strong></td>
+                    <td><a href="mailto:${escapeHtml(c.email)}" style="color: var(--primary-color);">${escapeHtml(c.email)}</a></td>
+                    <td style="max-width: 320px; font-size: 0.85rem;">${escapeHtml(c.message)}</td>
+                    <td style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(c.createdAt)}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function updatePickupStatus(id, newStatus) {
+            try {
+                const res = await fetch(`/api/pickups/${id}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    showAdminToast(`Updated ${id} status to "${newStatus}"`);
+                    loadDashboardData();
+                } else {
+                    showAdminToast(result.message || 'Update failed', 'error');
+                }
+            } catch (err) {
+                showAdminToast('Failed to update status', 'error');
+            }
+        }
+
+        async function deletePickup(id) {
+            if (!confirm(`Are you sure you want to permanently delete pickup request ${id} from database?`)) return;
+
+            try {
+                const res = await fetch(`/api/pickups/${id}`, { method: 'DELETE' });
+                const result = await res.json();
+                if (result.success) {
+                    showAdminToast(`Pickup ${id} deleted successfully`);
+                    loadDashboardData();
+                } else {
+                    showAdminToast(result.message || 'Delete failed', 'error');
+                }
+            } catch (err) {
+                showAdminToast('Failed to delete pickup', 'error');
+            }
+        }
+
+        function initTabs() {
+            const tabPickupsBtn = document.getElementById('tabPickupsBtn');
+            const tabContactsBtn = document.getElementById('tabContactsBtn');
+            const panelPickups = document.getElementById('panelPickups');
+            const panelContacts = document.getElementById('panelContacts');
+
+            tabPickupsBtn.addEventListener('click', () => {
+                tabPickupsBtn.classList.add('active');
+                tabContactsBtn.classList.remove('active');
+                panelPickups.style.display = 'block';
+                panelContacts.style.display = 'none';
+            });
+
+            tabContactsBtn.addEventListener('click', () => {
+                tabContactsBtn.classList.add('active');
+                tabPickupsBtn.classList.remove('active');
+                panelContacts.style.display = 'block';
+                panelPickups.style.display = 'none';
+            });
+        }
+
+        function initFilters() {
+            const searchInput = document.getElementById('searchInput');
+            const filterCategory = document.getElementById('filterCategory');
+            const filterStatus = document.getElementById('filterStatus');
+
+            function applyFilters() {
+                const query = searchInput.value.toLowerCase();
+                const cat = filterCategory.value;
+                const stat = filterStatus.value;
+
+                let filtered = allPickups.filter(p => {
+                    const matchSearch = !query || p.id.toLowerCase().includes(query) || p.fullName.toLowerCase().includes(query) || p.mobile.includes(query) || p.email.toLowerCase().includes(query);
+                    const matchCat = !cat || p.category === cat;
+                    const matchStat = !stat || p.status === stat;
+                    return matchSearch && matchCat && matchStat;
+                });
+
+                renderPickups(filtered);
+            }
+
+            searchInput.addEventListener('input', applyFilters);
+            filterCategory.addEventListener('change', applyFilters);
+            filterStatus.addEventListener('change', applyFilters);
+        }
+
+        function getStatusClass(status) {
+            if (status === 'Scheduled') return 'scheduled';
+            if (status === 'In Transit') return 'in-transit';
+            if (status === 'Recycled') return 'recycled';
+            if (status === 'Cancelled') return 'cancelled';
+            return 'scheduled';
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function showAdminToast(msg, type = 'success') {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            if (!toast) return;
+
+            toastMsg.textContent = msg;
+            if (type === 'error') {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>';
+                toast.style.borderLeftColor = '#ef4444';
+            } else {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #22c55e;"></i>';
+                toast.style.borderLeftColor = '#22c55e';
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+    </script>
+</body>
+</html>

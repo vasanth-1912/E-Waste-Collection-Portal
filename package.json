@@ -1,0 +1,20 @@
+{
+  "name": "ecocycle-ewaste-portal",
+  "version": "1.0.0",
+  "description": "EcoCycle - E-Waste Collection Portal with Node.js REST API Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "ewaste",
+    "recycling",
+    "portal",
+    "cse-miniproject",
+    "nodejs",
+    "rest-api"
+  ],
+  "author": "EcoCycle Team",
+  "license": "MIT"
+}

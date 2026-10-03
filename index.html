@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EcoCycle is a modern e-waste collection portal dedicated to responsible electronics recycling, doorstep pickup, and saving our planet.">
+    <meta name="keywords" content="e-waste recycling, electronic waste collection, eco-friendly, green planet, recycle electronics">
+    <meta name="author" content="EcoCycle Team">
+    <title>EcoCycle – E-Waste Collection Portal</title>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ==================== HEADER & NAVBAR ==================== -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            <a href="#home" class="logo" id="siteLogo">
+                <span class="logo-icon"><i class="fa-solid fa-recycle"></i></span>
+                <span class="logo-text">Eco<span class="highlight">Cycle</span></span>
+            </a>
+
+            <!-- Desktop & Mobile Navigation Links -->
+            <nav class="navbar" id="navbar">
+                <ul class="nav-list" id="navList">
+                    <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#categories" class="nav-link">E-Waste</a></li>
+                    <li class="nav-item"><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li class="nav-item"><a href="#pickup" class="nav-link">Schedule Pickup</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+
+                <!-- Action Buttons in Nav -->
+                <div class="nav-actions">
+                    <button class="btn btn-outline nav-btn" id="viewHistoryBtn" title="View Saved Pickups">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span>My Pickups</span>
+                        <span class="badge" id="navPickupCount">0</span>
+                    </button>
+                    <a href="admin.html" class="btn btn-secondary nav-btn" id="adminPortalBtn" title="Open Backend Database Dashboard">
+                        <i class="fa-solid fa-server"></i>
+                        <span>Admin Portal</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Mobile Hamburger Menu Button -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- ==================== 2. HOME (HERO) SECTION ==================== -->
+        <section class="hero-section" id="home">
+            <div class="hero-overlay"></div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fa-solid fa-leaf"></i> Eco-Friendly E-Waste Solution
+                    </div>
+                    <h1 class="hero-title">Recycle E-Waste, <br><span class="hero-title-highlight">Save Our Planet</span></h1>
+                    <p class="hero-subtitle">
+                        Dispose of your old electronic devices responsibly and help create a cleaner, safer, and greener environment for future generations.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#pickup" class="btn btn-primary btn-lg pulse-glow" id="heroScheduleBtn">
+                            <i class="fa-solid fa-calendar-check"></i> Schedule Pickup
+                        </a>
+                        <a href="#categories" class="btn btn-secondary btn-lg" id="heroExploreBtn">
+                            <i class="fa-solid fa-list-check"></i> Explore Categories
+                        </a>
+                    </div>
+
+                    <!-- Statistics Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                            <div class="stat-info">
+                                <h3 class="stat-number" id="homeStatCollected" data-target="500">500+</h3>
+                                <p class="stat-label">Devices Collected</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-face-smile"></i></div>
+                            <div class="stat-info">
+                                <h3 class="stat-number" id="homeStatUsers" data-target="200">200+</h3>
+                                <p class="stat-label">Happy Users</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                            <div class="stat-info">
+                                <h3 class="stat-number">100%</h3>
+                                <p class="stat-label">Eco-Friendly Mission</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Interactive Visual Card -->
+                <div class="hero-visual">
+                    <div class="hero-card-glow"></div>
+                    <div class="hero-visual-card">
+                        <div class="visual-header">
+                            <span class="visual-tag"><i class="fa-solid fa-shield-halved"></i> Certified Disposal</span>
+                            <span class="visual-live" id="apiStatusBadge"><span class="dot"></span> Backend Active</span>
+                        </div>
+                        <div class="visual-image-wrapper">
+                            <!-- High quality eco-recycling technology illustration/image -->
+                            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80" alt="Electronic Waste Recycling Banner" class="hero-img" loading="lazy">
+                        </div>
+                        <div class="visual-footer">
+                            <div class="visual-item">
+                                <i class="fa-solid fa-truck-fast"></i>
+                                <div>
+                                    <h4>Free Doorstep Pickup</h4>
+                                    <p>Safe & zero-contact transport</p>
+                                </div>
+                            </div>
+                            <div class="visual-item">
+                                <i class="fa-solid fa-award"></i>
+                                <div>
+                                    <h4>Green Certificate</h4>
+                                    <p>For sustainable disposal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 3. ABOUT SECTION ==================== -->
+        <section class="about-section section-padding" id="about">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag"><i class="fa-solid fa-seedling"></i> About Us</span>
+                    <h2 class="section-title">About EcoCycle</h2>
+                    <div class="title-underline"></div>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-image-column">
+                        <div class="about-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1612965607446-25e1332775ae?auto=format&fit=crop&w=800&q=80" alt="E-waste recycling and motherboards" class="about-main-img" loading="lazy">
+                            <div class="about-floating-badge">
+                                <div class="badge-icon"><i class="fa-solid fa-tree"></i></div>
+                                <div>
+                                    <strong>Zero Landfill Target</strong>
+                                    <span>Safe Circular Economy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-content-column">
+                        <h3 class="about-heading">Transforming Electronic Waste Into Sustainable Resources</h3>
+                        <p class="about-description">
+                            Electronic waste (e-waste) is one of the fastest-growing waste streams in the world. When discarded improperly in regular trash, toxic substances such as lead, mercury, and cadmium contaminate our soil and water resources.
+                        </p>
+                        <p class="about-description">
+                            <strong>EcoCycle</strong> provides an effortless, transparent bridge between responsible citizens, institutions, and government-authorized e-waste recycling centers. We ensure every retired device is either refurbished, stripped for reusable components, or safely dismantled with zero ecological harm.
+                        </p>
+
+                        <!-- About 3 Feature Cards -->
+                        <div class="about-cards-grid">
+                            <div class="about-card">
+                                <div class="about-card-icon green-icon">
+                                    <i class="fa-solid fa-hand-holding-droplet"></i>
+                                </div>
+                                <div class="about-card-body">
+                                    <h4>Reduce Pollution</h4>
+                                    <p>Prevents toxic heavy metals and chemicals from polluting our ground water and ecosystems.</p>
+                                </div>
+                            </div>
+
+                            <div class="about-card">
+                                <div class="about-card-icon blue-icon">
+                                    <i class="fa-solid fa-arrows-spin"></i>
+                                </div>
+                                <div class="about-card-body">
+                                    <h4>Reuse Resources</h4>
+                                    <p>Recovers valuable raw materials including gold, copper, and rare earths for circular production.</p>
+                                </div>
+                            </div>
+
+                            <div class="about-card">
+                                <div class="about-card-icon emerald-icon">
+                                    <i class="fa-solid fa-shield-heart"></i>
+                                </div>
+                                <div class="about-card-body">
+                                    <h4>Protect Nature</h4>
+                                    <p>Conserves raw natural minerals, drastically cutting down harmful mining and carbon emissions.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. E-WASTE CATEGORIES SECTION ==================== -->
+        <section class="categories-section section-padding bg-light" id="categories">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag"><i class="fa-solid fa-microchip"></i> Accepted Items</span>
+                    <h2 class="section-title">E-Waste Categories</h2>
+                    <p class="section-subtitle">Select any category below to pre-fill your pickup request form instantly.</p>
+                    <div class="title-underline"></div>
+                </div>
+
+                <div class="categories-grid">
+                    <!-- 1. Mobile Phones -->
+                    <div class="category-card" data-category-name="Mobile Phones">
+                        <div class="category-icon-box">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <h3 class="category-title">Mobile Phones</h3>
+                        <p class="category-desc">
+                            Smartphones, basic feature phones, tablets, PDAs, and broken screen handheld devices.
+                        </p>
+                        <div class="category-perk">
+                            <i class="fa-solid fa-check-circle"></i> Battery Safe Handling
+                        </div>
+                        <button class="btn btn-outline category-select-btn" data-category="Mobile Phones">
+                            <span>Select</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 2. Laptops -->
+                    <div class="category-card" data-category-name="Laptops & Computers">
+                        <div class="category-icon-box">
+                            <i class="fa-solid fa-laptop"></i>
+                        </div>
+                        <h3 class="category-title">Laptops</h3>
+                        <p class="category-desc">
+                            Personal laptops, desktop towers, monitors, motherboards, RAM sticks, and hard drives.
+                        </p>
+                        <div class="category-perk">
+                            <i class="fa-solid fa-check-circle"></i> Data Security Wipe
+                        </div>
+                        <button class="btn btn-outline category-select-btn" data-category="Laptops">
+                            <span>Select</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 3. Keyboards & Mouse -->
+                    <div class="category-card" data-category-name="Keyboards & Mouse">
+                        <div class="category-icon-box">
+                            <i class="fa-solid fa-keyboard"></i>
+                        </div>
+                        <h3 class="category-title">Keyboards & Mouse</h3>
+                        <p class="category-desc">
+                            Wired & wireless keyboards, optical mice, trackpads, webcams, cables, and PC peripherals.
+                        </p>
+                        <div class="category-perk">
+                            <i class="fa-solid fa-check-circle"></i> Plastic & Copper Recycle
+                        </div>
+                        <button class="btn btn-outline category-select-btn" data-category="Keyboards & Mouse">
+                            <span>Select</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 4. Batteries & Chargers -->
+                    <div class="category-card" data-category-name="Batteries & Chargers">
+                        <div class="category-icon-box">
+                            <i class="fa-solid fa-battery-three-quarters"></i>
+                        </div>
+                        <h3 class="category-title">Batteries & Chargers</h3>
+                        <p class="category-desc">
+                            Lithium-ion batteries, power adapters, phone chargers, power banks, and UPS battery units.
+                        </p>
+                        <div class="category-perk">
+                            <i class="fa-solid fa-check-circle"></i> Acid & Chemical Neutralize
+                        </div>
+                        <button class="btn btn-outline category-select-btn" data-category="Batteries & Chargers">
+                            <span>Select</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 5. Televisions -->
+                    <div class="category-card" data-category-name="Televisions">
+                        <div class="category-icon-box">
+                            <i class="fa-solid fa-tv"></i>
+                        </div>
+                        <h3 class="category-title">Televisions</h3>
+                        <p class="category-desc">
+                            LED, LCD, OLED screens, older CRT monitors, set-top boxes, and multimedia remotes.
+                        </p>
+                        <div class="category-perk">
+                            <i class="fa-solid fa-check-circle"></i> Heavy Metal Extraction
+                        </div>
+                        <button class="btn btn-outline category-select-btn" data-category="Televisions">
+                            <span>Select</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 6. Other Electronics -->
+                    <div class="category-card" data-category-name="Other Electronics">
+                        <div class="category-icon-box">
+                            <i class="fa-solid fa-plug"></i>
+                        </div>
+                        <h3 class="category-title">Other Electronics</h3>
+                        <p class="category-desc">
+                            Printers, scanners, microwaves, audio speakers, gaming consoles, and home appliances.
+                        </p>
+                        <div class="category-perk">
+                            <i class="fa-solid fa-check-circle"></i> 100% Circular Recovery
+                        </div>
+                        <button class="btn btn-outline category-select-btn" data-category="Other Electronics">
+                            <span>Select</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 6. HOW IT WORKS SECTION ==================== -->
+        <section class="steps-section section-padding" id="how-it-works">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag"><i class="fa-solid fa-route"></i> Simple Process</span>
+                    <h2 class="section-title">How It Works</h2>
+                    <p class="section-subtitle">Recycling your electronic waste with EcoCycle takes only 3 simple steps.</p>
+                    <div class="title-underline"></div>
+                </div>
+
+                <div class="steps-grid">
+                    <!-- Step 1 -->
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-icon-wrapper">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <h3 class="step-title">Select E-Waste</h3>
+                        <p class="step-desc">
+                            Identify and choose the unused, obsolete, or broken electronic devices you wish to safely recycle.
+                        </p>
+                    </div>
+
+                    <!-- Step Connector Indicator -->
+                    <div class="step-connector"><i class="fa-solid fa-arrow-right-long"></i></div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-icon-wrapper">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <h3 class="step-title">Schedule Pickup</h3>
+                        <p class="step-desc">
+                            Fill out the pickup form with your personal details, collection address, and preferred convenient date.
+                        </p>
+                    </div>
+
+                    <!-- Step Connector Indicator -->
+                    <div class="step-connector"><i class="fa-solid fa-arrow-right-long"></i></div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-icon-wrapper">
+                            <i class="fa-solid fa-recycle"></i>
+                        </div>
+                        <h3 class="step-title">Recycle Responsibly</h3>
+                        <p class="step-desc">
+                            Our verified collection team arrives at your doorstep to pick up items for authorized green recycling.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 5. SCHEDULE PICKUP SECTION ==================== -->
+        <section class="pickup-section section-padding bg-light" id="pickup">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag"><i class="fa-solid fa-truck-pickup"></i> Doorstep Pickup</span>
+                    <h2 class="section-title">Schedule Pickup</h2>
+                    <p class="section-subtitle">Submit your request below. We offer free doorstep collection for all e-waste items.</p>
+                    <div class="title-underline"></div>
+                </div>
+
+                <div class="pickup-layout">
+                    <!-- Left Side Info Box -->
+                    <div class="pickup-info-box">
+                        <div class="info-card-header">
+                            <h3><i class="fa-solid fa-circle-info"></i> Why Recycle With Us?</h3>
+                            <p>EcoCycle guarantees certified e-waste dismantling with certified compliance standards.</p>
+                        </div>
+
+                        <ul class="pickup-features-list">
+                            <li>
+                                <div class="feature-bullet"><i class="fa-solid fa-check"></i></div>
+                                <div>
+                                    <strong>100% Free Doorstep Collection</strong>
+                                    <span>No hidden charges for pickups from residential or college premises.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="feature-bullet"><i class="fa-solid fa-check"></i></div>
+                                <div>
+                                    <strong>Real-time REST Backend</strong>
+                                    <span>All requests are securely synced to the persistent Node.js JSON database.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="feature-bullet"><i class="fa-solid fa-check"></i></div>
+                                <div>
+                                    <strong>Data Security Guaranteed</strong>
+                                    <span>Storage media undergoes physical destruction or DoD-grade sanitization.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="feature-bullet"><i class="fa-solid fa-check"></i></div>
+                                <div>
+                                    <strong>Green Recycling Certificate</strong>
+                                    <span>Receive digital proof of your positive carbon footprint contribution.</span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="pickup-history-teaser">
+                            <h4>Stored Pickups in Backend:</h4>
+                            <p>Total of <strong id="teaserPickupCount">0</strong> active pickup request(s) registered in database.</p>
+                            <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
+                                <button type="button" class="btn btn-outline btn-sm" id="openHistoryModalBtn">
+                                    <i class="fa-solid fa-eye"></i> View My Requests
+                                </button>
+                                <a href="admin.html" class="btn btn-secondary btn-sm">
+                                    <i class="fa-solid fa-gauge-high"></i> Admin View
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side Form Container -->
+                    <div class="pickup-form-wrapper" id="pickupFormWrapper">
+                        <form id="pickupForm" class="pickup-form" novalidate>
+                            <div class="form-grid">
+                                <!-- 1. Full Name -->
+                                <div class="form-group">
+                                    <label for="fullName"><i class="fa-solid fa-user"></i> Full Name <span class="required">*</span></label>
+                                    <input type="text" id="fullName" name="fullName" class="form-control" placeholder="e.g. Alex Morgan" required>
+                                    <small class="error-msg" id="fullNameError"></small>
+                                </div>
+
+                                <!-- 2. Email Address -->
+                                <div class="form-group">
+                                    <label for="emailAddress"><i class="fa-solid fa-envelope"></i> Email Address <span class="required">*</span></label>
+                                    <input type="email" id="emailAddress" name="emailAddress" class="form-control" placeholder="e.g. alex@example.com" required>
+                                    <small class="error-msg" id="emailAddressError"></small>
+                                </div>
+
+                                <!-- 3. Mobile Number -->
+                                <div class="form-group">
+                                    <label for="mobileNumber"><i class="fa-solid fa-phone"></i> Mobile Number <span class="required">*</span></label>
+                                    <input type="tel" id="mobileNumber" name="mobileNumber" class="form-control" placeholder="e.g. 9876543210 (10 digits)" maxlength="15" required>
+                                    <small class="error-msg" id="mobileNumberError"></small>
+                                </div>
+
+                                <!-- 4. E-Waste Category -->
+                                <div class="form-group">
+                                    <label for="ewasteCategory"><i class="fa-solid fa-layer-group"></i> E-Waste Category <span class="required">*</span></label>
+                                    <select id="ewasteCategory" name="ewasteCategory" class="form-control" required>
+                                        <option value="" disabled selected>-- Select an E-Waste Category --</option>
+                                        <option value="Mobile Phones">Mobile Phones</option>
+                                        <option value="Laptops">Laptops</option>
+                                        <option value="Keyboards & Mouse">Keyboards & Mouse</option>
+                                        <option value="Batteries & Chargers">Batteries & Chargers</option>
+                                        <option value="Televisions">Televisions</option>
+                                        <option value="Other Electronics">Other Electronics</option>
+                                    </select>
+                                    <small class="error-msg" id="ewasteCategoryError"></small>
+                                </div>
+
+                                <!-- 5. Quantity -->
+                                <div class="form-group">
+                                    <label for="quantity"><i class="fa-solid fa-hashtag"></i> Quantity (Number of Items) <span class="required">*</span></label>
+                                    <input type="number" id="quantity" name="quantity" class="form-control" min="1" max="100" value="1" placeholder="1" required>
+                                    <small class="error-msg" id="quantityError"></small>
+                                </div>
+
+                                <!-- 6. Preferred Pickup Date -->
+                                <div class="form-group">
+                                    <label for="pickupDate"><i class="fa-solid fa-calendar-day"></i> Preferred Pickup Date <span class="required">*</span></label>
+                                    <input type="date" id="pickupDate" name="pickupDate" class="form-control" required>
+                                    <small class="error-msg" id="pickupDateError"></small>
+                                </div>
+                            </div>
+
+                            <!-- 7. Pickup Address -->
+                            <div class="form-group full-width">
+                                <label for="pickupAddress"><i class="fa-solid fa-location-dot"></i> Complete Pickup Address <span class="required">*</span></label>
+                                <textarea id="pickupAddress" name="pickupAddress" class="form-control textarea" rows="3" placeholder="Apartment / House No, Street name, Landmark, City & Pincode" required></textarea>
+                                <small class="error-msg" id="pickupAddressError"></small>
+                            </div>
+
+                            <!-- Form Submit Button -->
+                            <div class="form-submit-container">
+                                <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitPickupBtn">
+                                    <i class="fa-solid fa-paper-plane"></i> Submit Pickup Request
+                                </button>
+                                <p class="form-privacy-note">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Synced to Node.js Backend Database and stored locally.
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 7. CONTACT SECTION ==================== -->
+        <section class="contact-section section-padding" id="contact">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag"><i class="fa-solid fa-headset"></i> Get In Touch</span>
+                    <h2 class="section-title">Contact EcoCycle</h2>
+                    <p class="section-subtitle">Have questions or want to organize a bulk e-waste drive in your college? Reach out to us!</p>
+                    <div class="title-underline"></div>
+                </div>
+
+                <div class="contact-grid">
+                    <!-- Contact Info Cards -->
+                    <div class="contact-info-wrapper">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="info-text">
+                                <h4>Email Us</h4>
+                                <p>contact@ecocycle.org</p>
+                                <p>support@ecocycle.org</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-phone-volume"></i></div>
+                            <div class="info-text">
+                                <h4>Call Our Helpline</h4>
+                                <p>+91 98765 43210 (Toll Free)</p>
+                                <p>+91 (080) 2345 6789</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="info-text">
+                                <h4>Collection Head Office</h4>
+                                <p>EcoCycle Clean Tech Park, 4th Block, Innovation Hub, Bengaluru - 560001, Karnataka, India</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+                            <div class="info-text">
+                                <h4>Working Hours</h4>
+                                <p>Monday – Saturday: 9:00 AM – 6:00 PM</p>
+                                <p>Sunday: Closed (Online Bookings 24/7)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="contact-form-wrapper">
+                        <form id="contactForm" class="contact-form" novalidate>
+                            <div class="form-group">
+                                <label for="contactName"><i class="fa-solid fa-user"></i> Your Name <span class="required">*</span></label>
+                                <input type="text" id="contactName" name="contactName" class="form-control" placeholder="Enter your full name" required>
+                                <small class="error-msg" id="contactNameError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contactEmail"><i class="fa-solid fa-envelope"></i> Your Email <span class="required">*</span></label>
+                                <input type="email" id="contactEmail" name="contactEmail" class="form-control" placeholder="Enter your email address" required>
+                                <small class="error-msg" id="contactEmailError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contactMessage"><i class="fa-solid fa-message"></i> Your Message <span class="required">*</span></label>
+                                <textarea id="contactMessage" name="contactMessage" class="form-control textarea" rows="4" placeholder="Write your query, suggestion, or partnership request..." required></textarea>
+                                <small class="error-msg" id="contactMessageError"></small>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block" id="submitContactBtn">
+                                <i class="fa-solid fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== 8. FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <!-- Col 1: Brand Info -->
+                <div class="footer-col footer-about">
+                    <a href="#home" class="logo footer-logo">
+                        <span class="logo-icon"><i class="fa-solid fa-recycle"></i></span>
+                        <span class="logo-text">Eco<span class="highlight">Cycle</span></span>
+                    </a>
+                    <p class="footer-text">
+                        EcoCycle is dedicated to creating a greener tomorrow through organized, safe, and transparent e-waste collection and recycling services.
+                    </p>
+                    <div class="social-links">
+                        <a href="javascript:void(0)" aria-label="Facebook" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="javascript:void(0)" aria-label="Twitter" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="javascript:void(0)" aria-label="Instagram" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="javascript:void(0)" aria-label="LinkedIn" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="javascript:void(0)" aria-label="GitHub" class="social-btn"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#about"><i class="fa-solid fa-chevron-right"></i> About EcoCycle</a></li>
+                        <li><a href="#categories"><i class="fa-solid fa-chevron-right"></i> E-Waste Categories</a></li>
+                        <li><a href="#how-it-works"><i class="fa-solid fa-chevron-right"></i> How It Works</a></li>
+                        <li><a href="#pickup"><i class="fa-solid fa-chevron-right"></i> Schedule Pickup</a></li>
+                        <li><a href="admin.html"><i class="fa-solid fa-gauge-high"></i> Admin Dashboard</a></li>
+                        <li><a href="#contact"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: E-Waste Categories Links -->
+                <div class="footer-col">
+                    <h4 class="footer-title">Accepted Items</h4>
+                    <ul class="footer-links">
+                        <li><a href="#pickup" onclick="selectCategoryFromLink('Mobile Phones')"><i class="fa-solid fa-mobile-screen-button"></i> Mobile Phones</a></li>
+                        <li><a href="#pickup" onclick="selectCategoryFromLink('Laptops')"><i class="fa-solid fa-laptop"></i> Laptops & Computers</a></li>
+                        <li><a href="#pickup" onclick="selectCategoryFromLink('Keyboards & Mouse')"><i class="fa-solid fa-keyboard"></i> Keyboards & Mouse</a></li>
+                        <li><a href="#pickup" onclick="selectCategoryFromLink('Batteries & Chargers')"><i class="fa-solid fa-battery-three-quarters"></i> Batteries & Chargers</a></li>
+                        <li><a href="#pickup" onclick="selectCategoryFromLink('Televisions')"><i class="fa-solid fa-tv"></i> Televisions</a></li>
+                        <li><a href="#pickup" onclick="selectCategoryFromLink('Other Electronics')"><i class="fa-solid fa-plug"></i> Other Electronics</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Project Info -->
+                <div class="footer-col">
+                    <h4 class="footer-title">Project Info</h4>
+                    <p class="footer-text">
+                        Designed & Developed as a <strong>College CSE Mini-Project</strong> with a complete <strong>Node.js REST API Backend</strong> and persistent JSON database.
+                    </p>
+                    <div class="footer-badge">
+                        <i class="fa-solid fa-code"></i> Node.js + Vanilla JS Full Stack
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Copyright &copy; 2026 <strong>EcoCycle</strong>. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODALS & POPUPS ==================== -->
+
+    <!-- 1. Pickup Success Modal -->
+    <div class="modal-backdrop" id="successModal">
+        <div class="modal-dialog">
+            <div class="modal-content text-center">
+                <button class="modal-close" id="closeSuccessModalBtn" aria-label="Close modal">&times;</button>
+                <div class="modal-success-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="modal-title">Pickup Scheduled Successfully!</h3>
+                <p class="modal-subtitle">Thank you for taking a step towards an eco-friendly future.</p>
+
+                <div class="success-details-card">
+                    <div class="detail-row">
+                        <span class="detail-label">Request ID:</span>
+                        <span class="detail-value highlight-id" id="modalRequestId">ECO-12345</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Customer Name:</span>
+                        <span class="detail-value" id="modalCustomerName">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value" id="modalCategory">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Quantity:</span>
+                        <span class="detail-value" id="modalQuantity">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Pickup Date:</span>
+                        <span class="detail-value" id="modalDate">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value" id="modalAddress">-</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="modalDoneBtn">Done</button>
+                    <button class="btn btn-outline" id="modalViewAllBtn">
+                        <i class="fa-solid fa-list"></i> View All Pickups
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Pickup History / Database Viewer Modal -->
+    <div class="modal-backdrop" id="historyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title"><i class="fa-solid fa-clipboard-list"></i> Live Database Pickups</h3>
+                    <button class="modal-close" id="closeHistoryModalBtn" aria-label="Close modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <p class="history-intro">
+                        Below are all pickup requests recorded and synchronized via the <code>/api/pickups</code> REST API.
+                    </p>
+                    
+                    <div class="history-list-wrapper" id="historyListWrapper">
+                        <!-- Dynamic content populated via JavaScript -->
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="admin.html" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-gauge-high"></i> Open Full Admin Dashboard
+                    </a>
+                    <button class="btn btn-secondary btn-sm" id="closeHistoryBottomBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Floating Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-check"></i></div>
+        <div class="toast-message" id="toastMessage">Action completed successfully!</div>
+    </div>
+
+    <!-- 4. Floating Back to Top Button -->
+    <button class="back-to-top" id="backToTopBtn" aria-label="Back to top" title="Scroll to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
